@@ -94,7 +94,7 @@ if __name__ == "__main__":
               print(f"File {sys.argv[1]} not found. Make sure the file exists in the 'docs' folder.")
               sys.exit(1)
      else:
-          print("Usage: python main.py [filename]")
+          print("Please provide a single pdf file as an argument: python main.py test.py")
           sys.exit(1)
     
     
