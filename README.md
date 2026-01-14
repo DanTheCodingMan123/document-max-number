@@ -19,7 +19,7 @@ pip install -r requirements.txt
 
 To use this yourself, place your pdf document into the docs directory. To run the script, paste the following line into your terminal:
 python main.py <filename.pdf>
-Note that in you filename, only write the name of the file and do not include the filepath 'doc/...'.
+Note that in you filename, only write the name of the file and do not include the filepath 'doc/...'. If you do not add a command line argument, the program will run on a test pdf (my resume, since the Air Force pdf was too large to commit).
 
 ## Sample output and decisions
 
