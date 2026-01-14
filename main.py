@@ -51,6 +51,12 @@ def main(filepath = "test.pdf"):
      return largest
 
 def bonus_table(filepath = "test.pdf", largest = 0):
+     '''
+     Bonus function which iterates through the pdf by table and considers the natural language guidance in the document 
+     for a specific table format.
+     It looks for tables with 'million' or '$m' in the top left cell and scales all the numbers in the table accordingly.
+     Returns the largest number found in the table.
+     '''
      filepath = 'docs/' + filepath
      doc = pymupdf.open(filepath)
 
