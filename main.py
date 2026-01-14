@@ -3,6 +3,14 @@ import sys
 from re import findall
 
 def str_to_number(s):
+     '''
+     Transforms a string representation of a number into an actual number (int or float).
+     This function handles numbers with commas and decimal points.
+     If the input is an int or float, it returns it as a float.
+     '''
+     if isinstance(s, (int, float)):
+        return float(s)
+     
      s = s.replace(',', '')
      if '.' in s:
           return float(s)
@@ -10,6 +18,11 @@ def str_to_number(s):
           return int(s)
 
 def find_numbers_from_text(text):
+     '''
+     Returns a list of string representations of numbers found in the input text.
+     It uses regular expressions to find numbers, which may include commas and decimal points.
+     Returns an empty list if no numbers are found.
+     '''
      numbers = []
      number_strings = findall(r'-?\d[\d,]*\.?\d*', text)
 
@@ -19,6 +32,10 @@ def find_numbers_from_text(text):
 
 
 def main(filepath = "test.pdf"):
+     '''
+     Main function that opens a PDF, extracts the text, finds all numbers in the text, and returns the largest number found.
+     the function takes a filepath as an argument with a default value of 'text.pdf'.
+     '''
      filepath = 'docs/' + filepath
      doc = pymupdf.open(filepath)
 
@@ -30,11 +47,10 @@ def main(filepath = "test.pdf"):
           if numbers:
                numbers.append(largest)
                largest = max(numbers)
-          if 'millions' in text:
-               print(text)
      print(f"The largest number found in the document is: {largest}")
+     return largest
 
-def bonus(filepath = "test.pdf", largest = 0):
+def bonus_table(filepath = "test.pdf", largest = 0):
      filepath = 'docs/' + filepath
      doc = pymupdf.open(filepath)
 
@@ -49,28 +65,30 @@ def bonus(filepath = "test.pdf", largest = 0):
                     for i in range(1,nrows):
                          for j in range(1, ncols):
                               if table[i][j] is not None:
-                                   num_string = str(find_numbers_from_text(table[i][j]))
+                                   num_string = find_numbers_from_text(table[i][j])
                                    number = str_to_number(num_string[0]) if num_string else 0
                                    largest = max(largest, number * 1000000)
-
-     print(f"The largest number found in the document is: {largest}")
+     print(f"The largest number found in the document taking natural language guidance into consideration is: {largest}")
+     return largest
                          
                               
 
                
     
 if __name__ == "__main__":
-     bonus()
-#     if len(sys.argv) < 2:
-#          main()
-#     elif len(sys.argv)==2:
-#          try:
-#               main(sys.argv[1])
-#          except Exception as e:
-#               print(f"File {sys.argv[1]} not found. Make sure the file exists in the 'docs' folder.")
-#               sys.exit(1)
-#     else:
-#           print("Usage: python main.py [filename]")
-#           sys.exit(1)
+     if len(sys.argv) < 2:
+          largest = main()
+          bonus_table(largest = largest)
+
+     elif len(sys.argv)==2:
+          try:
+              largest = main(sys.argv[1])
+              bonus_table(sys.argv[1], largest = largest)
+          except Exception as e:
+              print(f"File {sys.argv[1]} not found. Make sure the file exists in the 'docs' folder.")
+              sys.exit(1)
+     else:
+          print("Usage: python main.py [filename]")
+          sys.exit(1)
     
     
